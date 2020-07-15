@@ -12,6 +12,20 @@ Each of the formats in this package contains the same set of formatting function
 
 ## Index
 
+- [type Asciidoc](<#type-asciidoc>)
+  - [func (f *Asciidoc) Accordion(title, body string) (string, error)](<#func-asciidoc-accordion>)
+  - [func (f *Asciidoc) AccordionHeader(title string) (string, error)](<#func-asciidoc-accordionheader>)
+  - [func (f *Asciidoc) AccordionTerminator() (string, error)](<#func-asciidoc-accordionterminator>)
+  - [func (f *Asciidoc) Bold(text string) (string, error)](<#func-asciidoc-bold>)
+  - [func (f *Asciidoc) CodeBlock(language, code string) (string, error)](<#func-asciidoc-codeblock>)
+  - [func (f *Asciidoc) CodeHref(loc lang.Location) (string, error)](<#func-asciidoc-codehref>)
+  - [func (f *Asciidoc) Escape(text string) string](<#func-asciidoc-escape>)
+  - [func (f *Asciidoc) Header(level int, text string) (string, error)](<#func-asciidoc-header>)
+  - [func (f *Asciidoc) Link(text, href string) (string, error)](<#func-asciidoc-link>)
+  - [func (f *Asciidoc) ListEntry(depth int, text string) (string, error)](<#func-asciidoc-listentry>)
+  - [func (f *Asciidoc) LocalHref(headerText string) (string, error)](<#func-asciidoc-localhref>)
+  - [func (f *Asciidoc) Paragraph(text string) (string, error)](<#func-asciidoc-paragraph>)
+  - [func (f *Asciidoc) RawHeader(level int, text string) (string, error)](<#func-asciidoc-rawheader>)
 - [type AzureDevOpsMarkdown](<#type-azuredevopsmarkdown>)
   - [func (f *AzureDevOpsMarkdown) Accordion(title, body string) (string, error)](<#func-azuredevopsmarkdown-accordion>)
   - [func (f *AzureDevOpsMarkdown) AccordionHeader(title string) (string, error)](<#func-azuredevopsmarkdown-accordionheader>)
@@ -56,6 +70,124 @@ Each of the formats in this package contains the same set of formatting function
   - [func (f *PlainMarkdown) Paragraph(text string) (string, error)](<#func-plainmarkdown-paragraph>)
   - [func (f *PlainMarkdown) RawHeader(level int, text string) (string, error)](<#func-plainmarkdown-rawheader>)
 
+
+## type [Asciidoc](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L12>)
+
+Asciidoc provides a Format which is compatible asciidoc format specification\.
+
+```go
+type Asciidoc struct{}
+```
+
+### func \(\*Asciidoc\) [Accordion](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L87>)
+
+```go
+func (f *Asciidoc) Accordion(title, body string) (string, error)
+```
+
+Accordion generates a collapsible content\. Asciidoc handles collapsable with a titiel\. The body is not escaped since asciidoc can handle all types of elements within a collapsable\.
+
+### func \(\*Asciidoc\) [AccordionHeader](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L103>)
+
+```go
+func (f *Asciidoc) AccordionHeader(title string) (string, error)
+```
+
+AccordionHeader generates the header visible when an accordion is collapsed\.
+
+The AccordionHeader is expected to be used in conjunction with AccordionTerminator\(\) when the demands of the body's rendering requires it to be generated independently\. The result looks conceptually like the following:
+
+```
+accordion := format.AccordionHeader("Accordion Title") + "Accordion Body" + format.AccordionTerminator()
+```
+
+### func \(\*Asciidoc\) [AccordionTerminator](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L110>)
+
+```go
+func (f *Asciidoc) AccordionTerminator() (string, error)
+```
+
+AccordionTerminator generates the code necessary to terminate an accordion after the body\. It is expected to be used in conjunction with AccordionHeader\(\)\. See AccordionHeader for a full description\.
+
+### func \(\*Asciidoc\) [Bold](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L15>)
+
+```go
+func (f *Asciidoc) Bold(text string) (string, error)
+```
+
+Bold converts the provided text to bold
+
+### func \(\*Asciidoc\) [CodeBlock](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L25>)
+
+```go
+func (f *Asciidoc) CodeBlock(language, code string) (string, error)
+```
+
+CodeBlock wraps the provided code as a code block and tags it with the provided language \(or no language if the empty string is provided\)\.
+
+### func \(\*Asciidoc\) [CodeHref](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L55>)
+
+```go
+func (f *Asciidoc) CodeHref(loc lang.Location) (string, error)
+```
+
+CodeHref always returns the empty string\.
+
+### func \(\*Asciidoc\) [Escape](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L120>)
+
+```go
+func (f *Asciidoc) Escape(text string) string
+```
+
+Escape escapes special markdown characters from the provided text\.
+
+### func \(\*Asciidoc\) [Header](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L38>)
+
+```go
+func (f *Asciidoc) Header(level int, text string) (string, error)
+```
+
+Header converts the provided text into a header of the provided level\. The level is expected to be at least 1\.
+
+### func \(\*Asciidoc\) [Link](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L60>)
+
+```go
+func (f *Asciidoc) Link(text, href string) (string, error)
+```
+
+Link generates a link with the given text and href values\.
+
+### func \(\*Asciidoc\) [ListEntry](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L75>)
+
+```go
+func (f *Asciidoc) ListEntry(depth int, text string) (string, error)
+```
+
+ListEntry generates an unordered list entry with the provided text at the provided zero\-indexed depth\. A depth of 0 is considered the topmost level of list\.
+
+### func \(\*Asciidoc\) [LocalHref](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L50>)
+
+```go
+func (f *Asciidoc) LocalHref(headerText string) (string, error)
+```
+
+LocalHref generates an href for navigating to a header with the given headerText located within the same document as the href itself\.
+
+### func \(\*Asciidoc\) [Paragraph](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L115>)
+
+```go
+func (f *Asciidoc) Paragraph(text string) (string, error)
+```
+
+Paragraph formats a paragraph with the provided text as the contents\.
+
+### func \(\*Asciidoc\) [RawHeader](<https://github.com/princjef/gomarkdoc/blob/master/format/asciidoc.go#L44>)
+
+```go
+func (f *Asciidoc) RawHeader(level int, text string) (string, error)
+```
+
+RawHeader converts the provided text into a header of the provided level without escaping the header text\. The level is expected to be at least 1\.
 
 ## type [AzureDevOpsMarkdown](<https://github.com/princjef/gomarkdoc/blob/master/format/devops.go#L17>)
 
