@@ -30,13 +30,13 @@ func (f *Asciidoc) CodeBlock(language, code string) (string, error) {
 	if "" == language {
 		language = "go"
 	}
-	return fmt.Sprintf(`[source,%s]\n----\n%s\n----`, language, code), nil
+	return fmt.Sprintf("[source,%s]\n----\n%s\n----\n", language, code), nil
 }
 
 // Header converts the provided text into a header of the provided level. The
 // level is expected to be at least 1.
 func (f *Asciidoc) Header(level int, text string) (string, error) {
-	return f.header(level, escape(text))
+	return f.header(level, text)
 }
 
 // RawHeader converts the provided text into a header of the provided level
@@ -48,7 +48,8 @@ func (f *Asciidoc) RawHeader(level int, text string) (string, error) {
 // LocalHref generates an href for navigating to a header with the given
 // headerText located within the same document as the href itself.
 func (f *Asciidoc) LocalHref(headerText string) (string, error) {
-	return fmt.Sprintf("xref:%s[%s]", f.genref(headerText), headerText), nil
+	//TODO: seems lik template adds a []: return fmt.Sprintf("xref:%s[%s]", f.genref(headerText), headerText), nil
+	return fmt.Sprintf("xref:%s", f.genref(headerText)), nil
 }
 
 // CodeHref always returns the empty string.
@@ -77,7 +78,7 @@ func (f *Asciidoc) ListEntry(depth int, text string) (string, error) {
 		return "", nil
 	}
 
-	prefix := strings.Repeat("**", depth)
+	prefix := strings.Repeat("*", (depth + 1))
 	return fmt.Sprintf("%s %s\n", prefix, text), nil
 }
 
@@ -118,7 +119,7 @@ func (f *Asciidoc) Paragraph(text string) (string, error) {
 
 // Escape escapes special markdown characters from the provided text.
 func (f *Asciidoc) Escape(text string) string {
-	return escape(text)
+	return text
 }
 
 func (f *Asciidoc) header(level int, text string) (string, error) {
